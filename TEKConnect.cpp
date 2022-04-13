@@ -102,7 +102,7 @@ PLUGIN_API int XPluginStart(char* outName, char* outSignature, char* outDescript
 	_idc_speedBrake = XPLMFindDataRef("sim/flightmodel/controls/sbrkrqst");//单精度，0~1.5
 	_idc_gear = XPLMFindDataRef("sim/flightmodel2/gear/deploy_ratio");//单精度，ratio
 	_idc_com1 = XPLMFindDataRef("sim/cockpit/radios/com1_freq_hz");//整型，10Hz
-	_idc_engine_fuelPump = XPLMFindDataRef("sim.cockpit/engine/fuel_pump_on");//整型数组[8]，布尔运算值
+	_idc_engine_fuelPump = XPLMFindDataRef("sim/cockpit/engine/fuel_pump_on");//整型数组[8]，布尔运算值
 	_idc_engine_N1 = XPLMFindDataRef("sim/flightmodel/engine/ENGN_N1_");//单精度数组[8]，百分比
 	_idc_engine_N2 = XPLMFindDataRef("sim/flightmodel/engine/ENGN_N2_");//单精度数组[8]，百分比
 	_idc_engine_EGT = XPLMFindDataRef("sim/flightmodel/engine/ENGN_EGT");//单精度数组[8]，百分比
@@ -163,15 +163,19 @@ float TEKLoopCallback(float inElapsedSinceLastCall, float inElapsedTimeSinceLast
 	float __idc_heading = XPLMGetDataf(_idc_heading);
 	int __idc_transponder = XPLMGetDatai(_idc_transponder);
 	int __idc_transponderCode = XPLMGetDatai(_idc_transponderCode);
-	//fuel on board
+	float __idc_fuelOnBoard[9];
+	XPLMGetDatavf(_idc_fuelOnBoard, __idc_fuelOnBoard, 0, 9);//fuel on board
 	float __idc_parkingBrake = XPLMGetDataf(_idc_parkingBrake);
 	float __idc_flaps = XPLMGetDataf(_idc_flaps);
 	float __idc_speedBrake = XPLMGetDataf(_idc_speedBrake);
 	float __idc_gear = XPLMGetDataf(_idc_gear);//gear
 	int __idc_com1 = XPLMGetDatai(_idc_com1);//com1
-	//engine fuel pump
-	//engine n1
-	//engine n2
+	float __idc_engineFuelPump[8];//engine fuel pump
+	XPLMGetDatavf(_idc_engine_fuelPump, __idc_engineFuelPump, 0, 8);
+	float __idc_engine_N1[8];//engine n1
+	XPLMGetDatavf(_idc_engine_N1, __idc_engine_N1, 0, 8);
+	float __idc_engine_N2[8];//engine n2
+	XPLMGetDatavf(_idc_engine_N2, __idc_engine_N2, 0, 8);
 	//engine EGT
 	int __idc_taxiLight = XPLMGetDatai(_idc_taxiLight);
 	float __idc_verticalSpeed = XPLMGetDataf(_idc_verticalSpeed);
